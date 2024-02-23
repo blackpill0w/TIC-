@@ -13,7 +13,6 @@ int main() {
     }
     win.clear();
 
-
     win.display();
   }
 }
