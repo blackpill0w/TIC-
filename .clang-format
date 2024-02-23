@@ -50,11 +50,6 @@ BraceWrapping:
 BreakBeforeBinaryOperators: None
 BreakBeforeConceptDeclarations: true
 BreakBeforeBraces: Custom
-BraceWrapping:
-  SplitEmptyFunction: false
-  AfterEnum: false
-  AfterStruct: false
-  BeforeElse: true
 BreakBeforeInheritanceComma: false
 BreakInheritanceList: BeforeColon
 BreakBeforeTernaryOperators: true

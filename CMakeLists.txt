@@ -16,12 +16,21 @@ string(CONCAT CMAKE_CXX_FLAGS
 set(BUILD_SHARED_LIBS OFF)
 set(BUILD_TESTING OFF)
 
-add_subdirectory("deps/SFML-2.6.1")
+add_subdirectory("deps/fmt-10.1.0")
 
-add_executable(tic
-  src/main.cpp)
-target_link_libraries(tic
-  sfml-window sfml-graphics)
+set(BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+set(SUPPORT_MODULE_RTEXTURES OFF)
+set(SUPPORT_MODULE_RAUDIO OFF)
+set(SUPPORT_MODULE_RTEXT OFF)
+set(SUPPORT_MODULE_RMODELS OFF)
+add_subdirectory("deps/raylib-5.0")
+
+add_executable(ticpp
+  src/main.cpp
+  src/tetris.cpp)
+target_link_libraries(ticpp
+  fmt
+  raylib)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 # Copy root/build/compile_commands.json to the root directory of the project

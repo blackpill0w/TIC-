@@ -3,7 +3,6 @@ Tetris In C++23.
 # Dependenies
 Cmake and a C++23 compiler.
 - [cmake](https://cmake.org)
-You might need to install the dependenies of [SFML](https://www.sfml-dev.org).
 # Build
 ## Linux & Unix-like operating systems
 Run this from the root directory of the project.
