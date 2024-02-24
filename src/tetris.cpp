@@ -19,7 +19,8 @@ void init_grid(TetrisGrid &grid) {
 void print_grid(TetrisGrid &grid) {
   static std::unordered_map<Tetromino, char> tetromino_text{
       {Tetromino::O, 'O'}, {Tetromino::I, 'I'}, {Tetromino::T, 'T'},   {Tetromino::L, 'L'},
-      {Tetromino::Z, 'Z'}, {Tetromino::S, 'S'}, {Tetromino::None, '.'}};
+      {Tetromino::Z, 'Z'}, {Tetromino::S, 'S'}, {Tetromino::None, '.'}
+  };
   for (auto &l : grid) {
     for (auto c : l) {
       fmt::print("{}, ", tetromino_text[c]);
@@ -38,11 +39,13 @@ void draw_grid(TetrisGrid &grid, const int x_offset, const int y_offset) {
       }
     }
     y += SQUARE_SIZE;
+    x = 0;
   }
 }
 
-std::array<Pos, 4> get_full_positions_of_tetromino(const Tetromino t, const Direction d,
-                                                   const int x, const int y) {
+std::array<Pos, 4> get_full_positions_of_tetromino(
+    const Tetromino t, const Direction d, const int x, const int y
+) {
   using enum Direction;
   // Given a position of a tetromino and the direction it's facing, get all squares
   switch (t) {
@@ -92,8 +95,11 @@ std::array<Pos, 4> get_full_positions_of_tetromino(const Tetromino t, const Dire
   }
 }
 
-void put_tetromino_at(TetrisGrid &grid, const Tetromino t, const Direction d, const int x,
-                      const int y) {}
-void clear_tetromino_at(TetrisGrid &grid, const Tetromino t, const Direction d, const int x,
-                        const int y);
+void put_tetromino_at(
+    TetrisGrid &grid, const Tetromino t, const Direction d, const int x, const int y
+);
+
+void clear_tetromino_at(
+    TetrisGrid &grid, const Tetromino t, const Direction d, const int x, const int y
+);
 }  // namespace tetrispp
