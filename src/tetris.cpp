@@ -4,7 +4,10 @@
 
 #include "./tetris.hpp"
 
+using std::array;
+
 namespace tetrispp {
+
 void init_grid(TetrisGrid &grid) {
   grid.reserve(GRID_HEIGHT);
   for (unsigned l = 0; l < GRID_HEIGHT; ++l) {
@@ -36,6 +39,9 @@ void draw_grid(TetrisGrid &grid, const int x_offset, const int y_offset) {
     for (const auto c : l) {
       if (c != Tetromino::None) {
         DrawRectangle(x + x_offset, y + y_offset, SQUARE_SIZE, SQUARE_SIZE, colors[c]);
+        DrawRectangleLines(
+            x + x_offset, y + y_offset, SQUARE_SIZE, SQUARE_SIZE, colors[Tetromino::None]
+        );
       }
       x += SQUARE_SIZE;
     }
@@ -43,8 +49,20 @@ void draw_grid(TetrisGrid &grid, const int x_offset, const int y_offset) {
   }
 }
 
-std::array<Pos, 4> get_full_positions_of_tetromino(
-    const Tetromino t, const Direction d, const int x, const int y
+void draw_tetromino_at(const Tetromino t, const Direction d, const int x, const int y) {
+  const array<Pos, 4> positions = get_full_positions_of_tetromino(
+      t, d, static_cast<size_t>(x / SQUARE_SIZE), static_cast<size_t>(y / SQUARE_SIZE)
+  );
+  for (auto &pos : positions) {
+    DrawRectangle(pos.x * SQUARE_SIZE, pos.y * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE, colors[t]);
+    DrawRectangleLines(
+        pos.x * SQUARE_SIZE, pos.y * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE, colors[Tetromino::None]
+    );
+  }
+}
+
+array<Pos, 4> get_full_positions_of_tetromino(
+    const Tetromino t, const Direction d, const size_t x, const size_t y
 ) {
   using enum Direction;
   // Given a position of a tetromino and the direction it's facing, get all squares
@@ -96,10 +114,20 @@ std::array<Pos, 4> get_full_positions_of_tetromino(
 }
 
 void put_tetromino_at(
-    TetrisGrid &grid, const Tetromino t, const Direction d, const int x, const int y
-);
+    TetrisGrid &grid, const Tetromino t, const Direction d, const size_t x, const size_t y
+) {
+  const array<Pos, 4> positions = get_full_positions_of_tetromino(t, d, x, y);
+  for (auto &pos : positions) {
+    grid[pos.x][pos.y] = t;
+  }
+}
 
 void clear_tetromino_at(
-    TetrisGrid &grid, const Tetromino t, const Direction d, const int x, const int y
-);
+    TetrisGrid &grid, const Tetromino t, const Direction d, const size_t x, const size_t y
+) {
+  const array<Pos, 4> positions = get_full_positions_of_tetromino(t, d, x, y);
+  for (auto &pos : positions) {
+    grid[pos.x][pos.y] = Tetromino::None;
+  }
+}
 }  // namespace tetrispp

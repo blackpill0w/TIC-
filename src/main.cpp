@@ -8,28 +8,18 @@ int main() {
       tetrispp::GRID_WIDTH * tetrispp::SQUARE_SIZE, tetrispp::GRID_HEIGHT * tetrispp::SQUARE_SIZE,
       "TICpp"
   );
-  fmt::println(
-      "Window {}, {}", tetrispp::GRID_WIDTH * tetrispp::SQUARE_SIZE,
-      tetrispp::GRID_HEIGHT * tetrispp::SQUARE_SIZE
-  );
+
+  Image icon_img = LoadImage("../icon.png");
+  SetWindowIcon(icon_img);
   SetTargetFPS(60);
 
   tetrispp::TetrisGrid grid{};
   tetrispp::init_grid(grid);
-  //fmt::println("Grid {}, {}", grid.size(), grid[0].size());
+  // fmt::println("Grid {}, {}", grid.size(), grid[0].size());
 
-  std::array<tetrispp::Pos, 4> x = get_full_positions_of_tetromino(
-      tetrispp::Tetromino::O, tetrispp::Direction::Right, grid[0].size() - 1, grid.size() - 1
-  );
-  for (auto &pos : x) {
-    grid[pos.x][pos.y] = tetrispp::Tetromino::O;
-  }
-  x = get_full_positions_of_tetromino(
-      tetrispp::Tetromino::T, tetrispp::Direction::Right, 5, 5
-  );
-  for (auto &pos : x) {
-    grid[pos.x][pos.y] = tetrispp::Tetromino::T;
-  }
+  tetrispp::put_tetromino_at(grid, tetrispp::Tetromino::O, tetrispp::Direction::Right, 0, 0);
+  tetrispp::put_tetromino_at(grid, tetrispp::Tetromino::S, tetrispp::Direction::Left, 5, 5);
+
   print_grid(grid);
 
   while (not WindowShouldClose()) {
@@ -40,6 +30,6 @@ int main() {
 
     EndDrawing();
   }
-
+  UnloadImage(icon_img);
   CloseWindow();
 }
