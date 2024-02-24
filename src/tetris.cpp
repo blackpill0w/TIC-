@@ -32,14 +32,14 @@ void print_grid(TetrisGrid &grid) {
 void draw_grid(TetrisGrid &grid, const int x_offset, const int y_offset) {
   int x = 0, y = 0;
   for (const auto &l : grid) {
+    x = 0;
     for (const auto c : l) {
       if (c != Tetromino::None) {
         DrawRectangle(x + x_offset, y + y_offset, SQUARE_SIZE, SQUARE_SIZE, colors[c]);
-        x += SQUARE_SIZE;
       }
+      x += SQUARE_SIZE;
     }
     y += SQUARE_SIZE;
-    x = 0;
   }
 }
 

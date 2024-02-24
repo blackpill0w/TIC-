@@ -16,14 +16,19 @@ int main() {
 
   tetrispp::TetrisGrid grid{};
   tetrispp::init_grid(grid);
-  fmt::println("Grid {}, {}", grid.size(), grid[0].size());
+  //fmt::println("Grid {}, {}", grid.size(), grid[0].size());
 
   std::array<tetrispp::Pos, 4> x = get_full_positions_of_tetromino(
       tetrispp::Tetromino::O, tetrispp::Direction::Right, grid[0].size() - 1, grid.size() - 1
   );
   for (auto &pos : x) {
-    fmt::println("({}, {})", pos.x, pos.y);
     grid[pos.x][pos.y] = tetrispp::Tetromino::O;
+  }
+  x = get_full_positions_of_tetromino(
+      tetrispp::Tetromino::T, tetrispp::Direction::Right, 5, 5
+  );
+  for (auto &pos : x) {
+    grid[pos.x][pos.y] = tetrispp::Tetromino::T;
   }
   print_grid(grid);
 

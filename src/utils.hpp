@@ -27,13 +27,9 @@ enum class Tetromino {
   None,
 };
 
-inline std::unordered_map<Tetromino, Color> colors{
-    {Tetromino::O, RED},
-    {Tetromino::I, BLUE},
-    {Tetromino::T, GREEN},
-    {Tetromino::L, ORANGE},
-    {Tetromino::Z, PURPLE}
-};
+inline std::unordered_map<Tetromino, Color> colors{{Tetromino::O, RED},    {Tetromino::I, BLUE},
+                                                   {Tetromino::T, GREEN},  {Tetromino::L, ORANGE},
+                                                   {Tetromino::Z, PURPLE}, {Tetromino::S, WHITE}};
 
 using TetrisGrid = std::vector<std::vector<Tetromino>>;
 
