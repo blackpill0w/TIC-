@@ -19,10 +19,6 @@ set(BUILD_TESTING OFF)
 add_subdirectory("deps/fmt-10.1.0")
 
 set(BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
-set(SUPPORT_MODULE_RTEXTURES OFF)
-set(SUPPORT_MODULE_RAUDIO OFF)
-set(SUPPORT_MODULE_RTEXT OFF)
-set(SUPPORT_MODULE_RMODELS OFF)
 add_subdirectory("deps/raylib-5.0")
 
 add_executable(ticpp

@@ -26,11 +26,19 @@ enum class Tetromino {
   None,
 };
 
-inline std::unordered_map<Tetromino, Color> colors{{Tetromino::O, RED},     {Tetromino::I, BLUE},
+inline std::unordered_map<Tetromino, Color> colors{{Tetromino::O, YELLOW},  {Tetromino::I, BLUE},
                                                    {Tetromino::T, GREEN},   {Tetromino::L, ORANGE},
                                                    {Tetromino::Z, PURPLE},  {Tetromino::S, WHITE},
                                                    {Tetromino::None, BLACK}};
 
 enum class Direction { Right, Left, Up, Down };
+
+struct FallingTetrominoData {
+  Tetromino type;
+  Direction d;
+  Pos pos;
+  Tetromino next;
+  Direction next_d;
+};
 
 }  // namespace tetrispp
