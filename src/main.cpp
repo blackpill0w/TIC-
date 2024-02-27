@@ -21,16 +21,17 @@ int main() {
   fmt::println("{}", falling_tetromino_data_to_string(falling_t));
 
   bool lost                  = false;
-  int blink                  = 0;
+  int blink_cnt              = 0;
   int move_tetromino_doc_cnt = 0;
+  int skip                   = 0;
 
   while (not WindowShouldClose()) {
     ++move_tetromino_doc_cnt;
 
-    if (IsKeyPressed(KEY_F)) {
+    if (IsKeyDown(KEY_F)) {
       SetTargetFPS(++fps);
       fmt::println("FPS: {}", fps);
-    } else if (IsKeyPressed(KEY_V)) {
+    } else if (IsKeyDown(KEY_V)) {
       SetTargetFPS(--fps);
       fmt::println("FPS: {}", fps);
     }
@@ -74,24 +75,31 @@ int main() {
     }
     if (not lost) {
       if (can_move_tetromino_to(grid, falling_t.type, falling_t.d, falling_t.pos.x, falling_t.pos.y, Direction::Down)) {
-        if (move_tetromino_doc_cnt >= 5) {
+        if (move_tetromino_doc_cnt >= (fps / 2)) {
           clear_tetromino_at(grid, falling_t.type, falling_t.d, falling_t.pos.x, falling_t.pos.y);
           ++falling_t.pos.y;
           put_tetromino_at(grid, falling_t.type, falling_t.d, falling_t.pos.x, falling_t.pos.y);
           move_tetromino_doc_cnt = 0;
         }
       } else {
+        if (skip < 4) {
+          ++skip;
+          goto DRAW;
+        } else {
+          skip = 0;
+        }
         clear_full_lines(grid);
         falling_t = new_falling_tetromino(grid, falling_t.next, falling_t.next_d);
         if (can_put_tetromino_at(grid, falling_t.type, falling_t.d, falling_t.pos.x, falling_t.pos.y)) {
           put_tetromino_at(grid, falling_t.type, falling_t.d, falling_t.pos.x, falling_t.pos.y);
         } else {
           lost = true;
-          fmt::println("{}", grid_to_string(grid));
         }
         fmt::println("{}", falling_tetromino_data_to_string(falling_t));
       }
     }
+
+  DRAW:
 
     BeginDrawing();
     ClearBackground(BLACK);
@@ -99,16 +107,17 @@ int main() {
     draw_grid(grid);
     draw_tetromino_at(falling_t.next, falling_t.next_d, SQUARE_SIZE * GRID_WIDTH + 80, 100);
     if (lost) {
-      DrawText("You Lost!", 50, 200, 36, RED);
-      DrawText("Press 'R' to play again.", 50, 240, 36, RED);
-      if (blink > 5) {
+      DrawRectangle(30, 190, 450, 100, Color(255, 255, 255, 180));
+      DrawText("Loser", 50, 200, 36, RED);
+      DrawText("Press 'R' to play again", 50, 240, 36, RED);
+      if (blink_cnt > (fps * 2)) {
+        blink_cnt = 0;
+      } else if (blink_cnt < fps) {
         draw_tetromino_at(
             falling_t.type, falling_t.d, falling_t.pos.x * SQUARE_SIZE, falling_t.pos.y * SQUARE_SIZE, RED
         );
-        --blink;
-      } else {
-        ++blink;
       }
+      ++blink_cnt;
     }
 
     EndDrawing();
